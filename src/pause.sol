@@ -111,7 +111,7 @@ contract DSPause is DSAuth, DSNote {
     function plot(address usr, bytes32 tag, bytes memory fax, uint eta)
         public note auth
     {
-        require(eta >= add(now, delay), "ds-pause-delay-not-respected");
+        require(eta >= add(block.timestamp, delay), "ds-pause-delay-not-respected");
         plans[hash(usr, tag, fax, eta)] = true;
     }
 
@@ -127,7 +127,7 @@ contract DSPause is DSAuth, DSNote {
     {
         require(plans[hash(usr, tag, fax, eta)], "ds-pause-unplotted-plan");
         require(soul(usr) == tag,                "ds-pause-wrong-codehash");
-        require(now >= eta,                      "ds-pause-premature-exec");
+        require(block.timestamp >= eta,          "ds-pause-premature-exec");
 
         plans[hash(usr, tag, fax, eta)] = false;
 

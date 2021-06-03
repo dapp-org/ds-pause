@@ -89,13 +89,13 @@ DSPause pause = new DSPause(delay, owner, authority);
 address      usr = address(0x0);
 bytes32      tag;  assembly { tag := extcodehash(usr) }
 bytes memory fax = abi.encodeWithSignature("sig()");
-uint         eta = now + delay;
+uint         eta = block.timestamp + delay;
 
 pause.plot(usr, tag, fax, eta);
 ```
 
 ```solidity
-// wait until block.timestamp is at least now + delay...
+// wait until block.timestamp is at least block.timestamp + delay...
 // and then execute the plan
 
 bytes memory out = pause.exec(usr, tag, fax, eta);
